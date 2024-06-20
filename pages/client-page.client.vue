@@ -1,5 +1,6 @@
 <template>
   <div>Client page: {{ count }}</div>
+  <JustServer />
 </template>
 
 <script setup lang="ts">

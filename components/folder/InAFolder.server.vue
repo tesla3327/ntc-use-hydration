@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-await new Promise((resolve) => setTimeout(resolve, 5000));
+// await new Promise((resolve) => setTimeout(resolve, 5000));
 
 const props = withDefaults(
   defineProps<{ startingCount: number }>(),

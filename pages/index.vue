@@ -2,6 +2,8 @@
   <div>
     Hi there
 
+    <NestedClient />
+
     <button @click="increment()">Increment</button>
 
     <NuxtIsland
@@ -19,6 +21,8 @@
       }"
     />
 
+    <hr />
+
     <div>
       <JustServer />
       <Paired :starting-count="startingCount" />
@@ -29,12 +33,33 @@
     <hr />
 
     <WithSlot>
-      <Hydrated
-        nuxt-client
-        :starting-count="startingCount"
-      />
-      <Paired nuxt-client :starting-count="startingCount" />
+      <!-- Props passed to interactive components within the slot
+           of a server component do not update correctly -->
+      <Hydrated :starting-count="startingCount" />
+      <Paired :starting-count="startingCount" />
     </WithSlot>
+
+    <hr />
+
+    <h3>Nesting server components</h3>
+
+    <NestedSlots>
+      <div>Hello there</div>
+    </NestedSlots>
+
+    <!-- Multiple levels of nesting doesn't work -->
+    <!-- <WithSlot>
+      <WithSlot>
+        <Hydrated
+          nuxt-client
+          :starting-count="startingCount"
+        />
+        <Paired
+          nuxt-client
+          :starting-count="startingCount"
+        />
+      </WithSlot>
+    </WithSlot> -->
 
     <hr />
 
@@ -53,8 +78,6 @@
 </template>
 
 <script setup>
-import WithSlotIsomorphic from '~/components/WithSlotIsomorphic.vue';
-
 const startingCount = ref(5);
 function increment() {
   startingCount.value += 10;
