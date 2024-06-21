@@ -1,31 +1,18 @@
-<template>
-  <div>
-    <button v-if="!counterFetched" @click="fetchCounter">
-      Fetch Counter
-    </button>
-
-    <!-- Will load Counter if not loaded already -->
-    <button
-      @click="
-        showCounter = !showCounter;
-        counterFetched = true;
-      "
-    >
-      {{ showCounter ? 'Hide' : 'Show' }} Counter
-    </button>
-
-    <!-- Must use Lazy prefix or component will be loaded on page load -->
-    <LazyCounter v-if="showCounter" />
-  </div>
-</template>
+<template>useHydration</template>
 
 <script setup>
-const showCounter = ref(false);
-const counterFetched = ref(false);
+useComponentHydration(
+  'some-unique-key',
+  () => {
+    console.log('On the server');
+    return 'my unique value for hydration';
+  },
+  (value) => console.log('On the client', value)
+);
 
-async function fetchCounter() {
-  counterFetched.value = true;
-  // Can also use preloadComponents
-  await prefetchComponents('Counter');
+// We can also access our payload value here once hydrated
+if (import.meta.client) {
+  const nuxtApp = useNuxtApp();
+  console.log(nuxtApp.payload['some-unique-key']);
 }
 </script>
